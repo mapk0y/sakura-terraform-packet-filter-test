@@ -1,0 +1,41 @@
+# vi: set ts=2 sw=2 sts=0 et:
+#
+# - ドキュメント https://sacloud.github.io/terraform-provider-sakuracloud/
+#
+###############################################################################
+# パケットフィルタの設定
+# - https://sacloud.github.io/terraform-provider-sakuracloud/configuration/resources/packet_filter/
+# - "/32"は使えない
+#   - 「Network のマスク長は0〜31の範囲で指定してください」と怒られます
+
+# Rules 
+resource "sakuracloud_packet_filter" "Rules" {
+  name = "Rules"
+  description = "Sample Rules"
+  expressions = {
+    protocol = "tcp"
+    source_nw = "0.0.0.0/0"
+    dest_port = "32768-61000"
+    allow = true
+    description = "Allow return tcp packet from all"
+  }
+  expressions = {
+    protocol = "udp"
+    source_nw = "0.0.0.0/0"
+    dest_port = "32768-61000"
+    allow = true
+    description = "Allow return udp packet from all"
+  }
+  expressions = {
+    protocol = "icmp"
+    source_nw = "0.0.0.0/0"
+    allow = true
+    description = "Allow icmp from all"
+  }
+  expressions = {
+    protocol = "ip"
+    source_nw = "0.0.0.0/0"
+    allow = false
+    description = "Deny from all"
+  }
+}

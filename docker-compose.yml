@@ -1,0 +1,5 @@
+terraform:
+  image: sacloud/terraform
+  env_file: .env
+  volumes:
+    - $PWD:/workdir/
